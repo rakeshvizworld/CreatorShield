@@ -1,1765 +1,939 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>CreatorShield - Protecting Creativity, Building Trust</title>
-
     <style>
-
         * {
-
             margin: 0;
-
             padding: 0;
-
             box-sizing: border-box;
-
         }
-
- 
 
         body {
-
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-
             color: #f8fafc;
-
             overflow: hidden;
-
             position: relative;
-
+            width: 100vw;
+            height: 100vh;
         }
-
- 
 
         body::before {
-
             content: '';
-
             position: fixed;
-
             top: 0;
-
             left: 0;
-
             width: 100%;
-
             height: 100%;
-
             background:
-
                 radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
-
                 radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.08) 0%, transparent 50%),
-
                 radial-gradient(circle at 40% 40%, rgba(124, 58, 237, 0.06) 0%, transparent 50%);
-
             pointer-events: none;
-
             z-index: -1;
-
         }
-
- 
 
         .presentation-container {
-
             width: 100vw;
-
             height: 100vh;
-
             position: relative;
-
+            overflow: hidden;
         }
-
- 
 
         .slide {
-
             width: 100%;
-
             height: 100%;
-
             display: none;
-
             align-items: center;
-
             justify-content: center;
-
-            padding: 60px;
-
+            padding: 2vh 2vw;
             text-align: center;
-
             position: relative;
-
             animation: slideIn 0.6s ease-out;
-
+            box-sizing: border-box;
         }
-
- 
 
         .slide.active {
-
             display: flex;
-
             flex-direction: column;
-
         }
-
- 
 
         .slide-content {
-
-            max-width: 1200px;
-
+            max-width: min(1200px, 96vw);
             width: 100%;
-
             z-index: 10;
-
+            margin: 0 auto;
         }
-
- 
 
         /* Hero Slide */
-
         .hero-slide {
-
             background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(13, 148, 136, 0.08) 100%);
-
-            border-radius: 40px;
-
-            margin: 40px;
-
+            border-radius: min(40px, 3vw);
+            margin: 2vh 2vw;
             position: relative;
-
             overflow: hidden;
-
         }
-
- 
 
         .hero-slide::before {
-
             content: '';
-
             position: absolute;
-
             top: 0;
-
             left: 0;
-
             right: 0;
-
             bottom: 0;
-
             background: linear-gradient(45deg, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%);
-
             transform: translateX(-100%);
-
             animation: shimmer 4s ease-in-out infinite;
-
         }
-
- 
 
         .logo-large {
-
-            font-size: 4rem;
-
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 700;
-
             background: linear-gradient(135deg, #2563eb 0%, #0d9488 50%, #7c3aed 100%);
-
             background-size: 200% 200%;
-
             -webkit-background-clip: text;
-
             background-clip: text;
-
             -webkit-text-fill-color: transparent;
-
             animation: gentleShift 6s ease-in-out infinite;
-
             margin-bottom: 20px;
-
             letter-spacing: -0.02em;
-
         }
-
- 
 
         .hero-tagline {
-
-            font-size: 2rem;
-
+            font-size: clamp(1.2rem, 3.5vw, 2rem);
             color: rgba(248, 250, 252, 0.9);
-
             margin-bottom: 30px;
-
             font-weight: 300;
-
             line-height: 1.4;
-
         }
-
- 
 
         .hero-subtitle {
-
-            font-size: 1.3rem;
-
+            font-size: clamp(1rem, 2.2vw, 1.3rem);
             color: rgba(248, 250, 252, 0.7);
-
             margin-bottom: 40px;
-
-            max-width: 800px;
-
+            max-width: 90%;
             margin-left: auto;
-
             margin-right: auto;
-
+            line-height: 1.5;
         }
-
- 
 
         /* Problem/Solution Slides */
-
         .problem-slide {
-
             text-align: left;
-
         }
-
- 
 
         .slide-title {
-
-            font-size: 3rem;
-
+            font-size: clamp(2rem, 4.5vw, 3rem);
             font-weight: 700;
-
             background: linear-gradient(135deg, #2563eb 0%, #0d9488 100%);
-
             -webkit-background-clip: text;
-
             background-clip: text;
-
             -webkit-text-fill-color: transparent;
-
             margin-bottom: 40px;
-
             text-align: center;
-
         }
-
- 
 
         .problem-grid {
-
             display: grid;
-
-            grid-template-columns: 1fr 1fr;
-
-            gap: 40px;
-
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 45vw), 1fr));
+            gap: min(40px, 3vw);
             margin-top: 40px;
-
+            width: 100%;
         }
-
- 
 
         .problem-card {
-
             background: linear-gradient(135deg, rgba(255, 51, 102, 0.1) 0%, rgba(255, 0, 102, 0.05) 100%);
-
             border: 1px solid rgba(255, 51, 102, 0.3);
-
             border-radius: 20px;
-
-            padding: 30px;
-
+            padding: min(30px, 4vw);
             text-align: center;
-
             transition: transform 0.3s ease;
-
         }
-
- 
 
         .problem-card:hover {
-
             transform: translateY(-5px);
-
         }
-
- 
 
         .solution-card {
-
             background: linear-gradient(135deg, rgba(5, 150, 105, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
-
             border: 1px solid rgba(5, 150, 105, 0.3);
-
             border-radius: 20px;
-
-            padding: 30px;
-
+            padding: min(30px, 4vw);
             text-align: center;
-
             transition: transform 0.3s ease;
-
         }
-
- 
 
         .solution-card:hover {
-
             transform: translateY(-5px);
-
         }
-
- 
 
         .card-icon {
-
-            font-size: 3rem;
-
+            font-size: clamp(2rem, 4vw, 3rem);
             margin-bottom: 20px;
-
             display: block;
-
         }
-
- 
 
         .card-title {
-
-            font-size: 1.5rem;
-
+            font-size: clamp(1.1rem, 2.2vw, 1.5rem);
             font-weight: 600;
-
             margin-bottom: 15px;
-
             color: #f8fafc;
-
         }
-
- 
 
         .card-text {
-
             color: rgba(248, 250, 252, 0.8);
-
             line-height: 1.6;
-
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
         }
-
- 
 
         /* Stats Slide */
-
         .stats-grid {
-
             display: grid;
-
-            grid-template-columns: repeat(3, 1fr);
-
-            gap: 40px;
-
+            grid-template-columns: repeat(auto-fit, minmax(min(250px, 30vw), 1fr));
+            gap: min(40px, 3vw);
             margin-top: 60px;
-
+            width: 100%;
         }
-
- 
 
         .stat-card {
-
             background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(124, 58, 237, 0.05) 100%);
-
             border: 1px solid rgba(37, 99, 235, 0.2);
-
             border-radius: 20px;
-
-            padding: 40px;
-
+            padding: min(40px, 5vw);
             text-align: center;
-
             position: relative;
-
             overflow: hidden;
-
         }
-
- 
 
         .stat-number {
-
-            font-size: 3.5rem;
-
+            font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 700;
-
             background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-
             -webkit-background-clip: text;
-
             background-clip: text;
-
             -webkit-text-fill-color: transparent;
-
             margin-bottom: 10px;
-
         }
-
- 
 
         .stat-label {
-
-            font-size: 1.1rem;
-
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
             color: rgba(248, 250, 252, 0.8);
-
             font-weight: 500;
-
         }
-
- 
 
         /* Market Slide */
-
         .market-visual {
-
             display: flex;
-
             justify-content: space-around;
-
             align-items: center;
-
             margin: 60px 0;
-
+            flex-wrap: wrap;
+            gap: 20px;
         }
-
- 
 
         .market-circle {
-
-            width: 200px;
-
-            height: 200px;
-
+            width: min(200px, 25vw);
+            height: min(200px, 25vw);
             border-radius: 50%;
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
             flex-direction: column;
-
             position: relative;
-
             animation: pulse 3s ease-in-out infinite;
-
+            min-width: 150px;
+            min-height: 150px;
         }
-
- 
 
         .market-circle.tam {
-
             background: linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(37, 99, 235, 0.1) 100%);
-
             border: 2px solid rgba(37, 99, 235, 0.4);
-
         }
-
- 
 
         .market-circle.sam {
-
             background: linear-gradient(135deg, rgba(13, 148, 136, 0.2) 0%, rgba(13, 148, 136, 0.1) 100%);
-
             border: 2px solid rgba(13, 148, 136, 0.4);
-
         }
-
- 
 
         .market-circle.som {
-
             background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(124, 58, 237, 0.1) 100%);
-
             border: 2px solid rgba(124, 58, 237, 0.4);
-
         }
-
- 
 
         .market-amount {
-
-            font-size: 2rem;
-
+            font-size: clamp(1.2rem, 3vw, 2rem);
             font-weight: 700;
-
             margin-bottom: 5px;
-
         }
-
- 
 
         .market-label {
-
-            font-size: 0.9rem;
-
+            font-size: clamp(0.7rem, 1.5vw, 0.9rem);
             opacity: 0.8;
-
+            text-align: center;
         }
-
- 
 
         /* Product Demo */
-
         .demo-preview {
-
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-
             border: 1px solid rgba(255, 255, 255, 0.2);
-
             border-radius: 20px;
-
-            padding: 40px;
-
+            padding: min(40px, 5vw);
             margin: 40px 0;
-
             position: relative;
-
             overflow: hidden;
-
+            width: 100%;
         }
-
- 
 
         .demo-screenshot {
-
             width: 100%;
-
             max-width: 800px;
-
-            height: 400px;
-
+            height: min(400px, 40vh);
             background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(13, 148, 136, 0.05) 100%);
-
             border-radius: 15px;
-
             border: 1px solid rgba(37, 99, 235, 0.2);
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
             margin: 0 auto;
-
-            font-size: 3rem;
-
+            font-size: clamp(2rem, 4vw, 3rem);
             color: rgba(248, 250, 252, 0.6);
-
         }
-
- 
 
         /* Team Slide */
-
         .team-grid {
-
             display: grid;
-
-            grid-template-columns: repeat(3, 1fr);
-
-            gap: 40px;
-
+            grid-template-columns: repeat(auto-fit, minmax(min(250px, 30vw), 1fr));
+            gap: min(40px, 3vw);
             margin-top: 60px;
-
+            width: 100%;
         }
-
- 
 
         .team-card {
-
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(37, 99, 235, 0.02) 100%);
-
             border: 1px solid rgba(255, 255, 255, 0.1);
-
             border-radius: 20px;
-
-            padding: 30px;
-
+            padding: min(30px, 4vw);
             text-align: center;
-
         }
-
- 
 
         .team-avatar {
-
-            width: 100px;
-
-            height: 100px;
-
+            width: min(100px, 15vw);
+            height: min(100px, 15vw);
             border-radius: 50%;
-
             background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-
             margin: 0 auto 20px;
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
-            font-size: 2rem;
-
+            font-size: clamp(1.2rem, 2.5vw, 2rem);
             color: white;
-
             font-weight: 700;
-
+            min-width: 80px;
+            min-height: 80px;
         }
-
- 
 
         .team-name {
-
-            font-size: 1.3rem;
-
+            font-size: clamp(1rem, 2vw, 1.3rem);
             font-weight: 600;
-
             margin-bottom: 5px;
-
         }
-
- 
 
         .team-role {
-
             color: rgba(248, 250, 252, 0.7);
-
             margin-bottom: 15px;
-
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
         }
-
- 
 
         .team-bio {
-
-            font-size: 0.9rem;
-
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
             color: rgba(248, 250, 252, 0.6);
-
             line-height: 1.5;
-
         }
-
- 
 
         /* Call to Action */
-
         .cta-slide {
-
             background: linear-gradient(135deg, rgba(5, 150, 105, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%);
-
-            border-radius: 40px;
-
-            margin: 40px;
-
+            border-radius: min(40px, 3vw);
+            margin: 2vh 2vw;
             text-align: center;
-
         }
-
- 
 
         .cta-title {
-
-            font-size: 3.5rem;
-
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
             font-weight: 700;
-
             margin-bottom: 30px;
-
             background: linear-gradient(135deg, #059669 0%, #2563eb 100%);
-
             -webkit-background-clip: text;
-
             background-clip: text;
-
             -webkit-text-fill-color: transparent;
-
         }
-
- 
 
         .cta-buttons {
-
             display: flex;
-
             gap: 20px;
-
             justify-content: center;
-
             margin-top: 40px;
-
+            flex-wrap: wrap;
         }
-
- 
 
         .btn {
-
             padding: 16px 32px;
-
             border-radius: 12px;
-
             border: none;
-
-            font-size: 1.1rem;
-
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
             font-weight: 600;
-
             cursor: pointer;
-
             transition: all 0.3s ease;
-
+            min-width: 140px;
         }
-
- 
 
         .btn-primary {
-
             background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-
             color: white;
-
             box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
-
         }
-
- 
 
         .btn-primary:hover {
-
             transform: translateY(-2px);
-
             box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
-
         }
-
- 
 
         .btn-secondary {
-
             background: transparent;
-
             color: #2563eb;
-
             border: 2px solid rgba(37, 99, 235, 0.4);
-
         }
-
- 
 
         .btn-secondary:hover {
-
             background: rgba(37, 99, 235, 0.1);
-
             border-color: rgba(37, 99, 235, 0.6);
-
         }
-
- 
 
         /* Navigation */
-
         .slide-nav {
-
             position: fixed;
-
             bottom: 30px;
-
             left: 50%;
-
             transform: translateX(-50%);
-
             display: flex;
-
             gap: 10px;
-
             z-index: 100;
-
         }
-
- 
 
         .nav-dot {
-
             width: 12px;
-
             height: 12px;
-
             border-radius: 50%;
-
             background: rgba(255, 255, 255, 0.3);
-
             cursor: pointer;
-
             transition: all 0.3s ease;
-
         }
-
- 
 
         .nav-dot.active {
-
             background: #2563eb;
-
             transform: scale(1.2);
-
         }
-
- 
 
         .slide-counter {
-
             position: fixed;
-
             top: 30px;
-
             right: 30px;
-
             background: rgba(255, 255, 255, 0.1);
-
             backdrop-filter: blur(10px);
-
             padding: 10px 20px;
-
             border-radius: 20px;
-
             border: 1px solid rgba(255, 255, 255, 0.2);
-
             font-size: 0.9rem;
-
             z-index: 100;
-
         }
-
- 
 
         /* Arrow Navigation */
-
         .slide-arrow {
-
             position: fixed;
-
             top: 50%;
-
             transform: translateY(-50%);
-
             background: rgba(37, 99, 235, 0.8);
-
             color: white;
-
             border: none;
-
             width: 50px;
-
             height: 50px;
-
             border-radius: 50%;
-
             font-size: 1.2rem;
-
             cursor: pointer;
-
             transition: all 0.3s ease;
-
             z-index: 100;
-
         }
-
- 
 
         .slide-arrow:hover {
-
             background: rgba(37, 99, 235, 1);
-
             transform: translateY(-50%) scale(1.1);
-
         }
-
- 
 
         .slide-arrow.prev {
-
             left: 30px;
-
         }
-
- 
 
         .slide-arrow.next {
-
             right: 30px;
-
         }
-
- 
 
         /* Animations */
-
         @keyframes slideIn {
-
             from {
-
                 opacity: 0;
-
                 transform: translateX(50px);
-
             }
-
             to {
-
                 opacity: 1;
-
                 transform: translateX(0);
-
             }
-
         }
-
- 
 
         @keyframes gentleShift {
-
             0%, 100% { background-position: 0% 50%; }
-
             50% { background-position: 100% 50%; }
-
         }
-
- 
 
         @keyframes shimmer {
-
             0% { transform: translateX(-100%); }
-
             100% { transform: translateX(200%); }
-
         }
-
- 
 
         @keyframes pulse {
-
             0%, 100% { transform: scale(1); }
-
             50% { transform: scale(1.05); }
-
         }
-
- 
 
         /* Responsive */
-
         @media (max-width: 768px) {
-
             .slide {
-
-                padding: 30px 20px;
-
+                padding: 1vh 1vw;
             }
-
-           
-
-            .slide-title {
-
-                font-size: 2rem;
-
+            
+            .hero-slide, .cta-slide {
+                margin: 1vh 1vw;
             }
-
-           
-
+            
             .problem-grid,
-
             .stats-grid,
-
             .team-grid {
-
                 grid-template-columns: 1fr;
-
                 gap: 20px;
-
             }
-
-           
-
+            
             .market-visual {
-
                 flex-direction: column;
-
                 gap: 20px;
-
             }
-
-           
-
+            
             .cta-buttons {
-
                 flex-direction: column;
-
                 align-items: center;
-
             }
 
+            .slide-counter {
+                top: 15px;
+                right: 15px;
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+
+            .slide-nav {
+                bottom: 15px;
+            }
+
+            .slide-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .slide-arrow.prev {
+                left: 15px;
+            }
+
+            .slide-arrow.next {
+                right: 15px;
+            }
         }
 
+        @media (max-width: 480px) {
+            .slide {
+                padding: 0.5vh 0.5vw;
+            }
+            
+            .slide-content {
+                max-width: 98vw;
+            }
+        }
     </style>
-
 </head>
-
 <body>
-
     <div class="presentation-container">
-
         <!-- Slide 1: Hero -->
-
         <div class="slide active hero-slide">
-
             <div class="slide-content">
-
                 <div class="logo-large">🛡️ CreatorShield</div>
-
                 <div class="hero-tagline">Protecting Creativity, Building Trust</div>
-
                 <div class="hero-subtitle">The ethical AI training marketplace that puts creators first, ensuring fair compensation and complete control over intellectual property.</div>
-
                 <div class="stats-grid" style="margin-top: 60px;">
-
                     <div class="stat-card">
-
                         <div class="stat-number">$500B+</div>
-
                         <div class="stat-label">Market Opportunity</div>
-
                     </div>
-
                     <div class="stat-card">
-
                         <div class="stat-number">50M+</div>
-
                         <div class="stat-label">Affected Creators</div>
-
                     </div>
-
                     <div class="stat-card">
-
                         <div class="stat-number">0%</div>
-
                         <div class="stat-label">Current Compensation</div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
- 
 
         <!-- Slide 2: The Problem -->
-
         <div class="slide problem-slide">
-
             <div class="slide-content">
-
                 <div class="slide-title">The $500 Billion Problem</div>
-
                 <div class="problem-grid">
-
                     <div class="problem-card">
-
                         <div class="card-icon">💸</div>
-
                         <div class="card-title">Massive Value Extraction</div>
-
                         <div class="card-text">AI companies have trained on trillions of words of human content without permission or payment, creating $500B+ in value while creators earned $0.</div>
-
                     </div>
-
                     <div class="problem-card">
-
                         <div class="card-icon">⚖️</div>
-
                         <div class="card-title">Legal Uncertainty</div>
-
                         <div class="card-text">$100B+ in active lawsuits. NYT vs OpenAI, Authors Guild vs AI companies. No clear framework exists for ethical AI training.</div>
-
                     </div>
-
                     <div class="problem-card">
-
                         <div class="card-icon">📉</div>
-
                         <div class="card-title">Creator Income Decline</div>
-
                         <div class="card-text">Freelance writers: -40% income. Stock illustrators: -25% revenue. AI trained on their work now competes against them.</div>
-
                     </div>
-
                     <div class="problem-card">
-
                         <div class="card-icon">🚫</div>
-
                         <div class="card-title">No Control Mechanism</div>
-
                         <div class="card-text">Creators have zero visibility into how their work is used, no opt-out systems, and no way to monetize AI training use.</div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
- 
 
         <!-- Slide 3: The Solution -->
-
         <div class="slide">
-
             <div class="slide-content">
-
                 <div class="slide-title">Our Solution: Ethical AI Training</div>
-
                 <div class="problem-grid">
-
                     <div class="solution-card">
-
                         <div class="card-icon">🛡️</div>
-
                         <div class="card-title">Content Protection</div>
-
                         <div class="card-text">Advanced fingerprinting technology monitors AI outputs for unauthorized use of protected content across all major platforms.</div>
-
                     </div>
-
                     <div class="solution-card">
-
                         <div class="card-icon">💰</div>
-
                         <div class="card-title">Fair Compensation</div>
-
                         <div class="card-text">Transparent marketplace where AI companies pay creators directly for training data use. Rates from $0.001-$0.05 per use.</div>
-
                     </div>
-
                     <div class="solution-card">
-
                         <div class="card-icon">🤝</div>
-
                         <div class="card-title">Ethical Partnerships</div>
-
                         <div class="card-text">Connect creators with AI companies committed to fair practices. Building sustainable relationships, not exploitative extraction.</div>
-
                     </div>
-
                     <div class="solution-card">
-
                         <div class="card-icon">📊</div>
-
                         <div class="card-title">Complete Transparency</div>
-
                         <div class="card-text">Real-time analytics showing exactly how content is used, which companies license it, and revenue earned from each piece.</div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
- 
 
         <!-- Slide 4: Market Opportunity -->
-
         <div class="slide">
-
             <div class="slide-content">
-
                 <div class="slide-title">Massive Market Opportunity</div>
-
                 <div class="market-visual">
-
                     <div class="market-circle tam">
-
                         <div class="market-amount">$500B</div>
-
                         <div class="market-label">TAM<br>AI Training Data</div>
-
                     </div>
-
                     <div class="market-circle sam">
-
                         <div class="market-amount">$80B</div>
-
                         <div class="market-label">SAM<br>Addressable Market</div>
-
                     </div>
-
                     <div class="market-circle som">
-
                         <div class="market-amount">$8B</div>
-
                         <div class="market-label">SOM<br>5-Year Target</div>
-
                     </div>
-
                 </div>
-
                 <div class="stats-grid">
-
                     <div class="stat-card">
-
                         <div class="stat-number">104M</div>
-
                         <div class="stat-label">Creator Economy</div>
-
                     </div>
-
                     <div class="stat-card">
-
                         <div class="stat-number">1,000+</div>
-
                         <div class="stat-label">AI Companies</div>
-
                     </div>
-
                     <div class="stat-card">
-
                         <div class="stat-number">20%</div>
-
                         <div class="stat-label">Revenue Share</div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
- 
 
         <!-- Slide 5: Product Demo -->
-
         <div class="slide">
-
             <div class="slide-content">
-
                 <div class="slide-title">Live Product Demo</div>
-
                 <div class="demo-preview">
-
                     <div class="demo-screenshot">
-
                         🖥️ Live Demo
-
                     </div>
-
                 </div>
-
                 <div class="problem-grid" style="margin-top: 40px;">
-
                     <div class="solution-card">
-
                         <div class="card-title">✅ One-Click Protection</div>
-
                         <div class="card-text">Upload content, set licensing preferences, and get immediate protection with legal backing.</div>
-
                     </div>
-
                     <div class="solution-card">
-
                         <div class="card-title">📈 Real-Time Revenue</div>
-
                         <div class="card-text">Watch earnings grow as AI companies license your content through our transparent marketplace.</div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
- 
 
         <!-- Slide 6: Business Model -->
-
         <div class="slide">
-
             <div class="slide-content">
-
                 <div class="slide-title">Sustainable Business Model</div>
-
                 <div class="stats-grid">
-
                     <div class="stat-card">
-
                         <div class="stat-number">20%</div>
-
                         <div class="stat-label">Transaction Fee</div>
-
                     </div>
-
                     <div class="stat-card">
-
                         <div class="stat-number">$29.99</div>
-
                         <div class="stat-label">Creator Plans</div>
-
                     </div>
-
                     <div class="stat-card">
-
                         <div class="stat-number">$2,999</div>
-
                         <div class="stat-label">AI Company Plans</div>
-
                     </div>
-
                 </div>
-
                 <div class="problem-grid" style="margin-top: 60px;">
-
                     <div class="solution-card">
-
                         <div class="card-title">Network Effects</div>
-
                         <div class="card-text">More creators → More valuable to AI companies<br>More AI companies → Higher creator earnings</div>
-
                     </div>
-
                     <div class="solution-card">
-
                         <div class="card-title">Recurring Revenue</div>
-
                         <div class="card-text">Subscription plans + transaction fees create predictable, growing revenue streams</div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
- 
 
         <!-- Slide 7: Traction -->
-
         <div class="slide">
-
             <div class="slide-content">
-
                 <div class="slide-title">Early Traction & Validation</div>
-
                 <div class="stats-grid">
-
                     <div class="stat-card">
-
                         <div class="stat-number">5,000+</div>
-
                         <div class="stat-label">Waitlist Signups</div>
-
                     </div>
-
                     <div class="stat-card">
-
                         <div class="stat-number">12</div>
-
                         <div class="stat-label">AI Company LOIs</div>
-
                     </div>
-
                     <div class="stat-card">
-
                         <div class="stat-number">500+</div>
-
                         <div class="stat-label">Beta Testers</div>
-
                     </div>
-
                 </div>
-
                 <div class="problem-grid" style="margin-top: 60px;">
-
                     <div class="solution-card">
-
                         <div class="card-title">Creator Demand</div>
-
                         <div class="card-text">97% of surveyed creators want control over AI training use of their work</div>
-
                     </div>
-
                     <div class="solution-card">
-
                         <div class="card-title">Industry Support</div>
-
                         <div class="card-text">Partnerships with ethical AI companies ready to pay fair rates for clean training data</div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
- 
 
         <!-- Slide 8: Team -->
-
         <div class="slide">
-
             <div class="slide-content">
-
                 <div class="slide-title">World-Class Team</div>
-
                 <div class="team-grid">
-
                     <div class="team-card">
-
                         <div class="team-avatar">P</div>
-
                         <div class="team-name">Prashanth</div>
-
                         <div class="team-role">CEO & Co-Founder</div>
-
                         <div class="team-bio">Visionary leader with deep understanding of creator economy challenges. Passionate about building ethical AI solutions that empower creators worldwide.</div>
-
                     </div>
-
                     <div class="team-card">
-
                         <div class="team-avatar">V</div>
-
                         <div class="team-name">Varun</div>
-
                         <div class="team-role">CTO & Co-Founder</div>
-
                         <div class="team-bio">Technical architect specializing in AI systems and content protection technologies. Expert in building scalable platforms that serve millions of users.</div>
-
                     </div>
-
                     <div class="team-card">
-
                         <div class="team-avatar">TBH</div>
-
                         <div class="team-name">To Be Hired</div>
-
                         <div class="team-role">Chief Legal Officer</div>
-
                         <div class="team-bio">Seeking world-class IP attorney with AI/tech expertise to lead legal strategy and regulatory partnerships.</div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
- 
 
         <!-- Slide 9: Funding Ask -->
-
         <div class="slide">
-
             <div class="slide-content">
-
                 <div class="slide-title">Series A: $15M</div>
-
                 <div class="problem-grid" style="margin-top: 60px;">
-
                     <div class="solution-card">
-
                         <div class="card-title">🚀 Scale Platform</div>
-
                         <div class="card-text">Support 1M+ creators, 100+ AI companies, global expansion</div>
-
                     </div>
-
                     <div class="solution-card">
-
                         <div class="card-title">🔧 Advanced Tech</div>
-
                         <div class="card-text">AI-powered content attribution, real-time monitoring, blockchain verification</div>
-
                     </div>
-
                     <div class="solution-card">
-
                         <div class="card-title">🌍 Market Leadership</div>
-
                         <div class="card-text">Become the standard for ethical AI training data sourcing</div>
-
                     </div>
-
                     <div class="solution-card">
-
                         <div class="card-title">⚖️ Legal Framework</div>
-
                         <div class="card-text">Shape industry standards, partner with regulators, build trust</div>
-
                     </div>
-
                 </div>
-
                 <div class="stats-grid" style="margin-top: 60px;">
-
                     <div class="stat-card">
-
                         <div class="stat-number">$50M</div>
-
                         <div class="stat-label">Revenue (Year 3)</div>
-
                     </div>
-
                     <div class="stat-card">
-
                         <div class="stat-number">10x</div>
-
                         <div class="stat-label">Creator Earnings</div>
-
                     </div>
-
                     <div class="stat-card">
-
                         <div class="stat-number">$500M</div>
-
                         <div class="stat-label">Valuation Target</div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
- 
 
         <!-- Slide 10: Call to Action -->
-
         <div class="slide cta-slide">
-
             <div class="slide-content">
-
                 <div class="cta-title">Join the Creator Revolution</div>
-
                 <div class="hero-subtitle">Together, we're building a world where creativity is valued, protected, and fairly compensated.</div>
-
                 <div class="cta-buttons">
-
                     <button class="btn btn-primary" onclick="window.open('mailto:hello@creatorshield.com', '_blank')">
-
                         📧 Schedule Demo
-
                     </button>
-
                     <button class="btn btn-secondary" onclick="window.open('https://creatorshield.com', '_blank')">
-
                         🚀 Join Waitlist
-
                     </button>
-
                 </div>
-
-                <div style="margin-top: 40px; color: rgba(248, 250, 252, 0.7);">
-
+                <div style="margin-top: 40px; color: rgba(248, 250, 252, 0.7); font-size: clamp(0.8rem, 1.5vw, 1rem);">
                     <strong>Contact:</strong> hello@creatorshield.com<br>
-
                     <strong>Demo:</strong> creatorshield.com/demo
-
                 </div>
-
             </div>
-
         </div>
-
- 
 
         <!-- Navigation -->
-
         <div class="slide-nav">
-
             <div class="nav-dot active" onclick="goToSlide(0)"></div>
-
             <div class="nav-dot" onclick="goToSlide(1)"></div>
-
             <div class="nav-dot" onclick="goToSlide(2)"></div>
-
             <div class="nav-dot" onclick="goToSlide(3)"></div>
-
             <div class="nav-dot" onclick="goToSlide(4)"></div>
-
             <div class="nav-dot" onclick="goToSlide(5)"></div>
-
             <div class="nav-dot" onclick="goToSlide(6)"></div>
-
             <div class="nav-dot" onclick="goToSlide(7)"></div>
-
             <div class="nav-dot" onclick="goToSlide(8)"></div>
-
             <div class="nav-dot" onclick="goToSlide(9)"></div>
-
         </div>
-
- 
 
         <button class="slide-arrow prev" onclick="previousSlide()">‹</button>
-
         <button class="slide-arrow next" onclick="nextSlide()">›</button>
 
- 
-
         <div class="slide-counter">
-
             <span id="current-slide">1</span> / <span id="total-slides">10</span>
-
         </div>
-
     </div>
 
- 
-
     <script>
-
         let currentSlide = 0;
-
         const totalSlides = 10;
 
- 
-
         function showSlide(n) {
-
             const slides = document.querySelectorAll('.slide');
-
             const dots = document.querySelectorAll('.nav-dot');
-
-           
-
+            
             if (n >= totalSlides) currentSlide = 0;
-
             if (n < 0) currentSlide = totalSlides - 1;
-
-           
-
+            
             slides.forEach(slide => slide.classList.remove('active'));
-
             dots.forEach(dot => dot.classList.remove('active'));
-
-           
-
+            
             slides[currentSlide].classList.add('active');
-
             dots[currentSlide].classList.add('active');
-
-           
-
+            
             document.getElementById('current-slide').textContent = currentSlide + 1;
-
         }
-
- 
 
         function nextSlide() {
-
             currentSlide++;
-
             showSlide(currentSlide);
-
         }
-
- 
 
         function previousSlide() {
-
             currentSlide--;
-
             showSlide(currentSlide);
-
         }
-
- 
 
         function goToSlide(n) {
-
             currentSlide = n;
-
             showSlide(currentSlide);
-
         }
 
- 
-
         // Keyboard navigation
-
         document.addEventListener('keydown', function(e) {
-
             if (e.key === 'ArrowRight' || e.key === ' ') {
-
                 nextSlide();
-
             } else if (e.key === 'ArrowLeft') {
-
                 previousSlide();
-
             } else if (e.key >= '1' && e.key <= '9') {
-
                 goToSlide(parseInt(e.key) - 1);
-
             } else if (e.key === '0') {
-
                 goToSlide(9);
-
             }
-
         });
 
- 
-
         // Auto-advance (optional)
-
         // setInterval(nextSlide, 10000); // Uncomment for auto-advance every 10 seconds
 
- 
-
         // Initialize
-
         document.getElementById('total-slides').textContent = totalSlides;
-
     </script>
-
 </body>
-
 </html>
